@@ -13,6 +13,8 @@ def model(profiles):
             yield datetime.utcfromtimestamp(hour * 3600).strftime('%Y-%m')
     
     for profile in profiles:
+        if not profile.uid:
+            continue
         for month, count in Counter(months(profile['events'])).iteritems():
             bin = min(int(math.log(count, 2)), 3) + 1
             yield '%s:%s' % (month, bin), profile.uid
